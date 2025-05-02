@@ -1,0 +1,58 @@
+name: Bats-based OpenVox Install Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  test-install:
+    name: Install test on ${{ matrix.os }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu:20.04
+            test_file: ubuntu.bats
+          - os: ubuntu:22.04
+            test_file: ubuntu.bats
+          - os: debian:11
+            test_file: debian.bats
+          - os: debian:12
+            test_file: debian.bats
+          - os: centos:7
+            test_file: centos.bats
+          - os: rockylinux:8
+            test_file: centos.bats
+          - os: rockylinux:9
+            test_file: centos.bats
+          - os: almalinux:8
+            test_file: centos.bats
+          - os: almalinux:9
+            test_file: centos.bats
+          - os: amazonlinux:2
+            test_file: centos.bats
+          - os: amazonlinux:2023
+            test_file: centos.bats
+          - os: fedora:40
+            test_file: fedora.bats
+
+    container:
+      image: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install Bats
+        run: |
+          git clone --depth 1 https://github.com/bats-core/bats-core /opt/bats
+          /opt/bats/install.sh /usr/local
+
+      - name: Run Bats tests
+        run: |
+          cd tests
+          bats ${{ matrix.test_file }}
