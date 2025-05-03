@@ -47,3 +47,30 @@ chmod +x run-local-test.sh
 These installer scripts work by running the main script `install.sh` which then retrieves the dedicated OS script like `install-openvox-deb.sh`.
 
 At this time only Ubuntu/Debian and Redhat families are supported.
+
+<details>
+<summary>🔍 Click to expand the Mermaid diagram</summary></details>
+
+```mermaid
+flowchart TD
+  A["User runs curl https\://voxpupuli.org/install.sh \| bash"] --> B["install.sh from voxpupuli.org"]
+  B --> C{Detect OS}
+
+  C -->|Debian/Ubuntu| D[Download<br>install-openvox.sh<br>from voxpupuli.org]
+  C -->|RHEL-based| E[Download<br>install-openvox-rpm.sh<br>from voxpupuli.org]
+
+  D --> F[Install OpenVox .deb release package]
+  E --> F2[Install OpenVox .rpm release package]
+
+  F & F2 --> G[Import GPG key]
+  G --> H[Configure apt/yum repo]
+  H --> I[Install openvox-agent]
+
+  I --> J{Symlink binaries?}
+  J -->|Yes| K[Link to /usr/local/bin]
+  J -->|No| L[Skip symlink step]
+
+  
+```
+
+
