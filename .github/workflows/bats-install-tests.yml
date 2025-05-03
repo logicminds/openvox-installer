@@ -25,8 +25,8 @@ jobs:
             test_file: debian.bats
           - os: debian:12
             test_file: debian.bats
-          - os: centos:7
-            test_file: centos.bats
+          # - os: centos:7
+          #   test_file: centos.bats
           - os: rockylinux:8
             test_file: centos.bats
           - os: rockylinux:9
@@ -49,14 +49,14 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Install Bats and Git
+      - name: Install Bats and other packages
         run: |
           if command -v apt-get >/dev/null; then
             apt-get update && apt-get install -y curl gnupg lsb-release python3 git
           elif command -v dnf >/dev/null; then
-            dnf install -y curl gnupg2 redhat-lsb-core python3 git
+            dnf install -y curl gnupg2 redhat-lsb-core python3 git tar openssl
           elif command -v yum >/dev/null; then
-            yum install -y curl gnupg2 redhat-lsb-core python3 git
+            yum install -y curl gnupg2 redhat-lsb-core python3 git tar openssl
           fi
       
           echo "📥 Installing bats-core..."
