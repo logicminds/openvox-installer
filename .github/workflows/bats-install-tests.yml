@@ -16,9 +16,11 @@ jobs:
       matrix:
         include:
           - os: ubuntu:20.04
-            test_file: ubuntu.bats
+            test_file: debian.bats
           - os: ubuntu:22.04
-            test_file: ubuntu.bats
+            test_file: debian.bats
+          - os: ubuntu:24.04
+            test_file: debian.bats  
           - os: debian:11
             test_file: debian.bats
           - os: debian:12

@@ -48,11 +48,12 @@ setup_file() {
   server_pid=$!
 
   # Wait for server to start (check for port availability or specific log output)
-  for i in {1..10}; do
+  for i in {1..30}; do
     if grep -q "Server started" server.log || curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:443/install.sh 2>/dev/null | grep -q "200"; then
       echo "Server started successfully"
       break
     fi
+    cat server.log
     echo "Waiting for server to start... ($i)"
     sleep 1
   done
