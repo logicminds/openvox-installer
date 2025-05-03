@@ -1,0 +1,48 @@
+# Requires: PowerShell 5.0+
+$ErrorActionPreference = "Stop"
+
+$msiUrl = "https://artifacts.voxpupuli.org/downloads/windows/openvox8/openvox-agent-8.17.0-rc1-x64.msi"
+$msiPath = "$env:TEMP\openvox-agent.msi"
+$installDir = "C:\Program Files\Puppet Labs\Puppet\bin"
+$linkDir = "$env:ProgramData\OpenVox\bin"
+$executables = @("puppet.exe", "facter.exe", "pxp-agent.exe")
+
+Write-Host "📥 Downloading OpenVox Agent MSI..."
+Invoke-WebRequest -Uri $msiUrl -OutFile $msiPath
+
+Write-Host "📦 Installing MSI package..."
+Start-Process msiexec.exe -ArgumentList "/i `"$msiPath`" /qn /norestart" -Wait
+
+# Ask for symlink creation
+$response = Read-Host "🔗 Do you want to create symlinks to puppet, facter, pxp-agent? (Y/n)"
+if ($response -eq "" -or $response -match "^[Yy]") {
+    if (-not (Test-Path $linkDir)) {
+        New-Item -ItemType Directory -Path $linkDir | Out-Null
+    }
+
+    foreach ($exe in $executables) {
+        $target = Join-Path $installDir $exe
+        $link = Join-Path $linkDir $exe
+
+        if (Test-Path $target) {
+            if (Test-Path $link) {
+                Remove-Item $link -Force
+            }
+            New-Item -ItemType SymbolicLink -Path $link -Target $target | Out-Null
+            Write-Host "✅ Linked $exe to $link"
+        } else {
+            Write-Host "⚠️  Skipping $exe (not found at $target)"
+        }
+    }
+
+    # Add linkDir to PATH if not already present
+    $currentPath = [Environment]::GetEnvironmentVariable("Path", "Machine")
+    if ($currentPath -notlike "*$linkDir*") {
+        [Environment]::SetEnvironmentVariable("Path", "$currentPath;$linkDir", "Machine")
+        Write-Host "🔧 Added $linkDir to system PATH (you may need to restart your terminal)"
+    }
+} else {
+    Write-Host "⏭️ Skipping symlink creation."
+}
+
+Write-Host "🎉 OpenVox Agent installed successfully!"

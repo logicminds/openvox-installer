@@ -9,7 +9,7 @@ fi
 CREATE_SYMLINKS="${3:-y}"
 AGENT_VERSION="${1:-8}"
 PKG_NAME="${2:-openvox-agent}"
-BASE_URL="https://yum.voxpupuli.org"
+BASE_URL="https://yum.voxpupuli.org/"
 
 . /etc/os-release
 OS_ID="${ID,,}"
@@ -42,7 +42,11 @@ curl -fsSL "$BASE_URL/$RPM_FILE" -o /tmp/openvox-release.rpm
 rpm -Uvh /tmp/openvox-release.rpm
 rm -f /tmp/openvox-release.rpm
 
-yum install -y "$PKG_NAME"
+if command -v dnf >/dev/null; then
+  dnf install -y "$PKG_NAME"
+else
+  yum install -y "$PKG_NAME"
+fi
 
 BIN_DIR="/opt/puppetlabs/bin"
 EXECUTABLES=(facter puppet pxp-agent)
