@@ -10,8 +10,15 @@ This project includes:
 ## 🛠 Usage
 
 ### Install on any supported system:
+To install for Linux and Mac
 ```bash
 curl -fsSL https://voxpupuli.org/install.sh | bash -s -- 8 openvox-agent
+```
+
+For windows
+
+```psh
+powershell -NoProfile -ExecutionPolicy Bypass -Command "iwr -useb https://voxpupuli.org/install-openvox-windows.ps1 | iex"
 ```
 
 ### GitHub Actions

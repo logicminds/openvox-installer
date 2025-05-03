@@ -4,6 +4,16 @@ set -euo pipefail
 AGENT_VERSION="${1:-8}"
 PKG_NAME="${2:-openvox-agent}"
 
+# macOS detection
+if [[ "$(uname)" == "Darwin" ]]; then
+  echo "🍎 Detected macOS"
+  INSTALL_SCRIPT_URL="https://voxpupuli.org/install-openvox-mac.sh"
+  echo "📥 Downloading macOS installer from: $INSTALL_SCRIPT_URL"
+  curl -fsSL "$INSTALL_SCRIPT_URL" | bash -s -- "$AGENT_VERSION" "$PKG_NAME"
+  exit 0
+fi
+
+# Linux OS detection
 if [[ -f /etc/os-release ]]; then
   . /etc/os-release
   OS_ID="${ID,,}"
@@ -26,5 +36,11 @@ case "$OS_ID" in
 esac
 
 echo "🔍 Detected OS: $OS_ID"
-echo "📥 Downloading installer from: $INSTALL_SCRIPT_URL"
+echo "📥 Downloading Linux installer from: $INSTALL_SCRIPT_URL"
 curl -fsSL "$INSTALL_SCRIPT_URL" | bash -s -- "$AGENT_VERSION" "$PKG_NAME"
+if [[ -f /opt/puppetlabs/bin/puppet ]]; then
+  echo "🎉 OpenVox agent installed successfully."
+else
+  echo "❌ OpenVox agent installation failed."
+  exit 1
+fi
