@@ -14,7 +14,7 @@ fi
 
 case "$OS_ID" in
   ubuntu|debian)
-    INSTALL_SCRIPT_URL="https://voxpupuli.org/install-openvox.sh"
+    INSTALL_SCRIPT_URL="https://voxpupuli.org/install-openvox-deb.sh"
     ;;
   rhel|centos|rocky|almalinux|fedora|amzn|sles)
     INSTALL_SCRIPT_URL="https://voxpupuli.org/install-openvox-rpm.sh"

@@ -27,3 +27,23 @@ Each test:
 - Checks `puppet version`
 
 
+### Testing locally
+You can use the local script to run tests locally with docker
+
+```bash
+chmod +x run-local-test.sh
+
+# Run test in Ubuntu 22.04
+./run-local-test.sh ubuntu:22.04
+
+# Run test in CentOS 7
+./run-local-test.sh centos:7
+
+# Run test in Fedora 40
+./run-local-test.sh fedora:40
+```
+
+## How it works
+These installer scripts work by running the main script `install.sh` which then retrieves the dedicated OS script like `install-openvox-deb.sh`.
+
+At this time only Ubuntu/Debian and Redhat families are supported.

@@ -38,7 +38,9 @@ case "$IMAGE" in
 esac
 
 echo "🚀 Running local Bats test for: $IMAGE"
-
+echo "docker run --rm -it -v \"$PWD\":\"$TEST_DIR\" --workdir \"$TEST_DIR\" $IMAGE bash"
+  
+  
 docker run --rm -it \
   -v "$PWD":"$TEST_DIR" \
   --workdir "$TEST_DIR" \

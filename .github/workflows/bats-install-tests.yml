@@ -47,8 +47,17 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Install Bats
+      - name: Install Bats and Git
         run: |
+          if command -v apt-get >/dev/null; then
+            apt-get update && apt-get install -y curl gnupg lsb-release python3 git
+          elif command -v dnf >/dev/null; then
+            dnf install -y curl gnupg2 redhat-lsb-core python3 git
+          elif command -v yum >/dev/null; then
+            yum install -y curl gnupg2 redhat-lsb-core python3 git
+          fi
+      
+          echo "📥 Installing bats-core..."
           git clone --depth 1 https://github.com/bats-core/bats-core /opt/bats
           /opt/bats/install.sh /usr/local
 

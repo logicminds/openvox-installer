@@ -6,6 +6,7 @@ if [[ "$EUID" -ne 0 ]]; then
   exit 1
 fi
 
+CREATE_SYMLINKS="${3:-y}"
 AGENT_VERSION="${1:-8}"
 PKG_NAME="${2:-openvox-agent}"
 BASE_URL="https://yum.voxpupuli.org"
@@ -45,7 +46,11 @@ yum install -y "$PKG_NAME"
 
 BIN_DIR="/opt/puppetlabs/bin"
 EXECUTABLES=(facter puppet pxp-agent)
-read -rp "🔗 Symlink facter, puppet, and pxp-agent from $BIN_DIR to /usr/local/bin? [y/N]: " LINK_CHOICE
+if [[ ! "$CREATE_SYMLINKS" =~ ^[Yy]$ ]]; then
+  read -rp "🔗 Symlink facter, puppet, and pxp-agent from $BIN_DIR to /usr/local/bin? [y/N]: " LINK_CHOICE
+else
+  LINK_CHOICE="$CREATE_SYMLINKS"
+fi 
 if [[ "$LINK_CHOICE" =~ ^[Yy]$ ]]; then
   for exe in "${EXECUTABLES[@]}"; do
     if [[ -x "$BIN_DIR/$exe" ]]; then
