@@ -23,12 +23,12 @@ setup_file() {
   fi
 
   echo "Creating fake certs for testing..."
-  if [ ! -f /usr/local/share/ca-certificates/openvox.crt ]; then
+  if [ ! -f cert.pem ]; then
     openssl req -x509 -newkey rsa:2048 -nodes -days 365 \
       -keyout cert.key -out cert.pem \
       -subj "/CN=voxpupuli.org" \
       -addext "subjectAltName=DNS:voxpupuli.org,DNS:localhost"
-    cp cert.pem /usr/local/share/ca-certificates/openvox.crt
+    # cp cert.pem /usr/local/share/ca-certificates/openvox.crt
     #update-ca-certificates
   fi
 
