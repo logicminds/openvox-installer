@@ -22,7 +22,7 @@ SUPPORTED_IMAGES=(
 
 case "$IMAGE" in
   ubuntu:*|debian:*)
-    BATS_TEST_FILE="ubuntu.bats"
+    BATS_TEST_FILE="debian.bats"
     ;;
   centos:*|rockylinux:*|almalinux:*|amazonlinux:*|fedora:*)
     BATS_TEST_FILE="centos.bats"
@@ -50,9 +50,12 @@ docker run --rm -it \
     if command -v apt-get >/dev/null; then
       apt-get update && apt-get install -y curl gnupg lsb-release python3 git
     elif command -v dnf >/dev/null; then
-      dnf install -y curl gnupg2 redhat-lsb-core python3 git
+      dnf install -y gnupg2 python3 git tar openssl
+      if ! grep -q -E 'Rocky Linux 9|Amazon Linux release 2023' /etc/os-release; then
+        dnf install -y redhat-lsb-core || true
+      fi
     elif command -v yum >/dev/null; then
-      yum install -y curl gnupg2 redhat-lsb-core python3 git
+      yum install -y curl gnupg2 redhat-lsb-core python3 git tar openssl
     fi
 
     echo '🧪 Installing Bats...'

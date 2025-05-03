@@ -15,11 +15,14 @@ setup_file() {
   fi
   echo "🔧 Installing prerequisites..."
   if command -v apt-get >/dev/null; then
-    apt-get update && apt-get install -y curl gnupg lsb-release python3
+    apt-get update && apt-get install -y curl gnupg lsb-release python3 procps
   elif command -v dnf >/dev/null; then
-    dnf install -y curl gnupg2 redhat-lsb-core python3
+    dnf install -y gnupg2 python3 git tar openssl procps-ng
+    if ! grep -q -E 'Rocky Linux 9|Amazon Linux release 2023' /etc/os-release; then
+      dnf install -y redhat-lsb-core || true
+    fi
   elif command -v yum >/dev/null; then
-    yum install -y curl gnupg2 redhat-lsb-core python3
+      yum install -y curl gnupg2 redhat-lsb-core python3 git tar openssl
   fi
 
   # Use test file directory as root for python server
@@ -34,8 +37,6 @@ setup_file() {
     # cp cert.pem /usr/local/share/ca-certificates/openvox.crt
     #update-ca-certificates
   fi
-
-  echo $PWD
   
   echo '127.0.0.1 voxpupuli.org' >> /etc/hosts
   echo "🧪 Starting local HTTP server and redirecting voxpupuli.org to localhost..."
@@ -45,8 +46,12 @@ setup_file() {
     exit 1
   fi
   # Start the server and redirect output
-  nohup python3 https_server.py >> server.log 2>&1 &
-  server_pid=$!
+  if pgrep -f "python3 https_server.py" > /dev/null; then
+    echo "✅ HTTPS server is already running"
+  else
+    nohup python3 https_server.py >> server.log 2>&1 &
+  fi
+  server_pid=$(pgrep -f "python3 https_server.py")
 
   # Wait for server to start (check for port availability or specific log output)
   for i in {1..30}; do
