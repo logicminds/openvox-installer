@@ -22,6 +22,9 @@ setup_file() {
     yum install -y curl gnupg2 redhat-lsb-core python3
   fi
 
+  # Use test file directory as root for python server
+  cd "$BATS_TEST_DIRNAME/.." || exit 1
+ 
   echo "Creating fake certs for testing..."
   if [ ! -f cert.pem ]; then
     openssl req -x509 -newkey rsa:2048 -nodes -days 365 \
@@ -32,9 +35,7 @@ setup_file() {
     #update-ca-certificates
   fi
 
-  # Use test file directory as root for python server
-  cd "$BATS_TEST_DIRNAME/.." || exit 1
- 
+  echo $PWD
   
   echo '127.0.0.1 voxpupuli.org' >> /etc/hosts
   echo "🧪 Starting local HTTP server and redirecting voxpupuli.org to localhost..."
