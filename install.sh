@@ -3,11 +3,12 @@ set -euo pipefail
 
 AGENT_VERSION="${1:-8}"
 PKG_NAME="${2:-openvox-agent}"
+BASE_URL="https://voxpupuli.org"
 
 # macOS detection
 if [[ "$(uname)" == "Darwin" ]]; then
   echo "🍎 Detected macOS"
-  INSTALL_SCRIPT_URL="https://voxpupuli.org/install-openvox-mac.sh"
+  INSTALL_SCRIPT_URL="${BASE_URL}/install-openvox-mac.sh"
   echo "📥 Downloading macOS installer from: $INSTALL_SCRIPT_URL"
   curl -fsSL "$INSTALL_SCRIPT_URL" | bash -s -- "$AGENT_VERSION" "$PKG_NAME"
   exit 0
@@ -24,10 +25,10 @@ fi
 
 case "$OS_ID" in
   ubuntu|debian)
-    INSTALL_SCRIPT_URL="https://voxpupuli.org/install-openvox-deb.sh"
+    INSTALL_SCRIPT_URL="${BASE_URL}/install-openvox-deb.sh"
     ;;
   rhel|centos|rocky|almalinux|fedora|amzn|sles)
-    INSTALL_SCRIPT_URL="https://voxpupuli.org/install-openvox-rpm.sh"
+    INSTALL_SCRIPT_URL="${BASE_URL}/install-openvox-rpm.sh"
     ;;
   *)
     echo "❌ Unsupported OS: $OS_ID"
