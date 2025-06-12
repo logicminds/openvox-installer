@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-IMAGE="${1:-ubuntu:22.04}"
+IMAGE="${1:-ubuntu:24.04}"
 TEST_DIR="/test"
 BATS_TEST_FILE=""
 
 SUPPORTED_IMAGES=(
-  "ubuntu:20.04"
   "ubuntu:22.04"
+  "ubuntu:24.04"
   "debian:11"
   "debian:12"
   "centos:7"
@@ -17,7 +17,7 @@ SUPPORTED_IMAGES=(
   "almalinux:9"
   "amazonlinux:2"
   "amazonlinux:2023"
-  "fedora:40"
+  "fedora:42"
 )
 
 case "$IMAGE" in
