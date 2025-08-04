@@ -40,6 +40,14 @@ All the scripts have a BASE_URL variable that will need to point to your sources
 
 Example: `curl -fsSL https://raw.githubusercontent.com/logicminds/openvox-installer/refs/heads/main/install.sh | bash -s -- 8 openvox-agent https://raw.githubusercontent.com/logicminds/openvox-installer/refs/heads/main`
 
+In this case I am installing from the repo itself and then passing in the base url which is also this repo that will be used to download the OS specific scripts. In the OS specific scripts you will find `BASE_URL` that points to the artifact repository for that OS (apt, yum, ...).  Update these values to your own urls so all traffic stays in your network.
+
+```
+CREATE_SYMLINKS="${3:-y}"
+AGENT_VERSION="${1:-8}"
+PKG_NAME="${2:-openvox-agent}"
+BASE_URL="https://apt.voxpupuli.org"  --> update this: ie. artifactory.company.com/packages/openvox
+```
 
 ### Testing locally
 You can use the local script to run tests locally with docker
