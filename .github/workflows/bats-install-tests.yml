@@ -39,7 +39,7 @@ jobs:
           #   test_file: centos.bats
           # - os: amazonlinux:2023  
           #   test_file: centos.bats
-          - os: fedora:40
+          - os: fedora:42
             test_file: fedora.bats
 
     container:

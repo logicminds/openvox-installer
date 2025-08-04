@@ -1,7 +1,14 @@
 #!/bin/bash
 set -euo pipefail
 
-DMG_URL="https://downloads.voxpupuli.org/mac/openvox8/15/arm64/openvox-agent-8.13.0-1.osx15.dmg"
+# Please note that the DMG URL is hardcoded to the latest version of the OpenVox agent.
+# Openvox is new and packages for older OS versions do not exist yet.  This script
+# mainly works for ARM64 and macOS 15 as that is the only supported platform at the moment.
+
+OS_VERSION=$(sw_vers -productVersion | cut -d. -f1)
+AARCH=$(uname -m)
+AGENT_VERSION="${1:-8}"
+DMG_URL="https://downloads.voxpupuli.org/mac/openvox${AGENT_VERSION}/${OS_VERSION}/${AARCH}/openvox-agent-8.21.0-1.osx15.dmg"
 MOUNT_POINT="/Volumes/openvox-agent"
 TMP_DMG="/tmp/openvox-agent.dmg"
 BIN_DIR="/opt/puppetlabs/bin"

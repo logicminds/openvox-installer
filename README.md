@@ -33,6 +33,13 @@ Each test:
 - Verifies `puppet` binary in PATH
 - Checks `puppet version`
 
+### Running with your own domain and mirrored artifacts
+You can run this on your own servers with a few changes to the scripts.
+
+All the scripts have a BASE_URL variable that will need to point to your sources and artifacts.
+
+Example: `curl -fsSL https://raw.githubusercontent.com/logicminds/openvox-installer/refs/heads/main/install.sh | bash -s -- 8 openvox-agent https://raw.githubusercontent.com/logicminds/openvox-installer/refs/heads/main`
+
 
 ### Testing locally
 You can use the local script to run tests locally with docker

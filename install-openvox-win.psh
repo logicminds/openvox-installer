@@ -1,7 +1,7 @@
 # Requires: PowerShell 5.0+
 $ErrorActionPreference = "Stop"
 
-$msiUrl = "https://artifacts.voxpupuli.org/downloads/windows/openvox8/openvox-agent-8.17.0-rc1-x64.msi"
+$msiUrl = "https://artifacts.voxpupuli.org/downloads/windows/openvox8/openvox-agent-8.19.2-x64.msi"
 $msiPath = "$env:TEMP\openvox-agent.msi"
 $installDir = "C:\Program Files\Puppet Labs\Puppet\bin"
 $linkDir = "$env:ProgramData\OpenVox\bin"
