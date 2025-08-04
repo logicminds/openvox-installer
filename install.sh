@@ -3,7 +3,8 @@ set -euo pipefail
 
 AGENT_VERSION="${1:-8}"
 PKG_NAME="${2:-openvox-agent}"
-BASE_URL="https://voxpupuli.org"
+BASE_URL=${3:-"https://voxpupuli.org"}
+
 
 # macOS detection
 if [[ "$(uname)" == "Darwin" ]]; then
