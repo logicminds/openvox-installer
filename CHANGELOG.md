@@ -1,5 +1,9 @@
 # Changelog
 
+## 2025-11-20
+- Updated mac version to 8.23.1-1
+- Updated windows version to 8.23.1
+
 ## 2025-08-03
 
 ### Added

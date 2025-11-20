@@ -8,7 +8,8 @@ set -euo pipefail
 OS_VERSION=$(sw_vers -productVersion | cut -d. -f1)
 AARCH=$(uname -m)
 AGENT_VERSION="${1:-8}"
-DMG_URL="https://downloads.voxpupuli.org/mac/openvox${AGENT_VERSION}/${OS_VERSION}/${AARCH}/openvox-agent-8.21.0-1.osx15.dmg"
+# DMG_URL="https://downloads.voxpupuli.org/mac/openvox${AGENT_VERSION}/${OS_VERSION}/${AARCH}/openvox-agent-8.21.0-1.osx15.dmg"
+DMG_URL="https://downloads.voxpupuli.org/mac/openvox${AGENT_VERSION}/openvox-agent-8.23.1-1.macos.all.${AARCH}.dmg"
 MOUNT_POINT="/Volumes/openvox-agent"
 TMP_DMG="/tmp/openvox-agent.dmg"
 BIN_DIR="/opt/puppetlabs/bin"
