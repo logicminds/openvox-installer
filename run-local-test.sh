@@ -17,7 +17,7 @@ SUPPORTED_IMAGES=(
   "almalinux:9"
   "amazonlinux:2"
   "amazonlinux:2023"
-  "fedora:42"
+  "fedora:43"
 )
 
 case "$IMAGE" in
